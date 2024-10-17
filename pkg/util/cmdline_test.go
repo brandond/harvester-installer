@@ -8,9 +8,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_parseCmdLineWithPrefix(t *testing.T) {
+func Test_ParseCmdLineWithPrefix(t *testing.T) {
 	cmdline := `x y harvester.a.b=true "harvester.c=d" harvester.e harvester.f=1 harvester.f=2`
-	m, err := parseCmdLine(cmdline, "harvester")
+	m, err := ParseCmdLine(cmdline, "harvester")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -23,9 +23,9 @@ func Test_parseCmdLineWithPrefix(t *testing.T) {
 	assert.Equal(t, want, m)
 }
 
-func Test_parseCmdLineWithoutPrefix(t *testing.T) {
+func Test_ParseCmdLineWithoutPrefix(t *testing.T) {
 	cmdline := `mode=live console=tty1 console=ttyS0,115200n8`
-	m, err := parseCmdLine(cmdline, "")
+	m, err := ParseCmdLine(cmdline, "")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -36,11 +36,11 @@ func Test_parseCmdLineWithoutPrefix(t *testing.T) {
 	assert.Equal(t, want, m)
 }
 
-func Test_parseCmdLineWithNetworkInterface(t *testing.T) {
+func Test_ParseCmdLineWithNetworkInterface(t *testing.T) {
 
 	cmdline := `harvester.os.sshAuthorizedKeys=a  harvester.install.management_interface.method=dhcp harvester.install.management_interface.bond_options.mode=balance-tlb harvester.install.management_interface.bond_options.miimon=100 harvester.os.sshAuthorizedKeys=b harvester.install.mode=create harvester.install.management_interface.interfaces="hwAddr: ab:cd:ef:gh" harvester.install.management_interface.interfaces="hwAddr:   de:fg:hi:jk"`
 
-	m, err := parseCmdLine(cmdline, "harvester")
+	m, err := ParseCmdLine(cmdline, "harvester")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -62,10 +62,10 @@ func Test_parseCmdLineWithNetworkInterface(t *testing.T) {
 	assert.Equal(t, want, have)
 }
 
-func Test_parseCmdLineWithSchemeVersion(t *testing.T) {
+func Test_ParseCmdLineWithSchemeVersion(t *testing.T) {
 	cmdline := `harvester.os.sshAuthorizedKeys=a  harvester.install.management_interface.method=dhcp harvester.install.management_interface.bond_options.mode=balance-tlb harvester.install.management_interface.bond_options.miimon=100 harvester.os.sshAuthorizedKeys=b harvester.install.mode=create harvester.install.management_interface.interfaces="hwAddr: ab:cd:ef:gh" harvester.install.management_interface.interfaces="hwAddr:   de:fg:hi:jk" harvester.scheme_version=1`
 
-	m, err := parseCmdLine(cmdline, "harvester")
+	m, err := ParseCmdLine(cmdline, "harvester")
 	assert.NoError(t, err, "expected no error while parsing arguments")
 
 	val, ok := m["scheme_version"]
